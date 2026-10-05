@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="CoverOn — уральская metal и hard rock кавер-группа. Живой звук, мировые хиты, букинг концертов и мероприятий.">
+<title>CoverON</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=JetBrains+Mono:wght@400;500;700&family=Metal+Mania&family=New+Rocker&family=Russo+One&family=Ruslan+Display&display=swap">
+<style>
+/* Layout: merch-site minimalism after fallinginreverse.com — white page, generous air, centered heavy uppercase headings, small monospace text, square buttons; black bands for hero, shows and manifesto. */
+:root{
+  --ink:#0a0a0a;         /* black bands, buttons */
+  --paper:#ffffff;       /* page */
+  --text:#1c1d1d;        /* body text on white */
+  --mute:#6f6f6f;        /* secondary mono text */
+  --line:#e4e4e4;        /* hairlines on white */
+  --line-dark:#2a2a2a;   /* hairlines on black */
+  --dim:#f0f1f3;         /* footer ground */
+  --head:"Inter Tight","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+a{color:inherit}
+img,svg{max-width:100%}
+h1,h2,h3{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:-.025em;line-height:1.1;margin:0;text-wrap:balance}
+h2{font-size:clamp(28px,3.4vw,40px);text-align:center}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+section{padding-block:clamp(56px,8vw,104px)}
+.lead{text-align:center;max-width:62ch;margin:14px auto 0;color:var(--mute)}
+.center{text-align:center}
+.dark{background:var(--ink);color:var(--paper);color-scheme:dark}
+.dark .lead{color:#b5b5b5}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.dark .label{color:#b5b5b5}
+
+/* buttons: square, mono, tracked uppercase */
+.btn{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:15px 28px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);text-decoration:none;cursor:pointer;line-height:1;transition:background-color .35s cubic-bezier(.2,.7,.2,1),color .35s cubic-bezier(.2,.7,.2,1),border-color .35s cubic-bezier(.2,.7,.2,1)}
+.btn svg{transition:fill .35s cubic-bezier(.2,.7,.2,1)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.ghost{background:transparent;color:currentColor;border-color:currentColor}
+.btn.ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+nav.scrolled .btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* nav: burger left, wordmark centered, booking right; transparent over hero, white after scroll */
+nav{position:fixed;left:0;right:0;top:0;padding-top:env(safe-area-inset-top,0px);z-index:20;color:var(--paper);background:transparent;border-bottom:1px solid transparent;transition:background .25s,color .25s,border-color .25s}
+nav.scrolled{background:rgba(255,255,255,.96);color:var(--text);border-bottom-color:var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;min-height:64px}
+.logo{font-family:var(--head);font-weight:900;font-size:20px;letter-spacing:-.02em;text-transform:uppercase;text-decoration:none;justify-self:center;color:inherit}
+.menu-btn{justify-self:start;display:inline-flex;align-items:center;gap:12px;background:none;border:0;color:inherit;cursor:pointer;padding:10px 0;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.menu-btn .ico{width:24px;height:14px;position:relative;display:block}
+.menu-btn .ico::before,.menu-btn .ico::after,.menu-btn .ico i{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor}
+.menu-btn .ico::before{top:0}.menu-btn .ico i{top:6px}.menu-btn .ico::after{bottom:0}
+nav .btn.small{justify-self:end;padding:10px 16px;font-size:11px}
+@media(max-width:560px){nav .btn.small{padding:9px 12px;letter-spacing:.12em}}
+
+/* drawer: white, slides from the left */
+.backdrop{position:fixed;inset:0;background:rgba(10,10,10,.55);z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
+.backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(400px,88vw);background:var(--paper);color:var(--text);z-index:40;transform:translateX(-100%);transition:transform .3s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-rows:auto 1fr auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden}
+.drawer.open{transform:none;visibility:visible}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding-inline:28px;border-bottom:1px solid var(--line)}
+.close-btn{background:none;border:0;color:inherit;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:10px 0;display:inline-flex;gap:10px;align-items:center}
+.close-btn::before{content:"×";font-family:var(--head);font-size:22px;line-height:1;font-weight:700}
+.drawer ul{list-style:none;margin:0;padding:20px 0;overflow:auto}
+.drawer li a{display:block;padding:16px 28px;font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:clamp(24px,3vw,32px);line-height:1;text-decoration:none;color:inherit}
+.drawer li a{transition:background-color .25s,color .25s}
+.drawer li a:hover{background:var(--ink);color:var(--paper)}
+.drawer-foot{padding:24px 28px 28px;display:grid;gap:14px;border-top:1px solid var(--line)}
+.soc{display:flex;gap:22px;flex-wrap:wrap;list-style:none;margin:0;padding:0}
+.soc a{display:inline-flex;align-items:center;padding:6px;color:var(--mute);transition:color .15s}
+.soc svg{display:block}
+.soc a:hover{color:var(--text)}
+body.menu-open{overflow:hidden}
+
+/* hero: full-bleed photo, centered content */
+.hero{position:relative;display:grid;align-items:end;justify-items:center;min-height:100svh;background:var(--ink);color:var(--paper);overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 13%;filter:grayscale(1) contrast(1.05) brightness(.6);display:block;max-width:none}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.1) 35%,rgba(10,10,10,.25) 70%,var(--ink) 100%)}
+.hero-text{position:relative;display:grid;gap:18px;justify-items:center;padding-block:0 clamp(40px,6vw,72px);width:100%}
+.hero h1.slogan{font-family:var(--mono);font-weight:500;font-size:clamp(15px,1.9vw,26px);letter-spacing:.18em;text-transform:uppercase;line-height:1.5;max-width:40ch}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+@media(max-width:720px){.hero-bg{object-position:50% 8%}}
+
+/* logo rows: top row scrolls right, bottom row left */
+.logos{padding-block:clamp(20px,3vw,36px)}
+.marquee{overflow:hidden;padding-block:clamp(14px,1.8vw,22px)}
+.track{display:flex;width:max-content;animation:roll 60s linear infinite}
+.track.rev{animation-direction:reverse}
+.logos:hover .track{animation-play-state:paused}
+.track ul{display:flex;align-items:center;list-style:none;margin:0;padding:0}
+.track li{display:flex;align-items:center;white-space:nowrap;color:var(--ink);font-size:34px;line-height:1;padding-inline:24px}
+.track li::after{content:"";width:5px;height:5px;background:var(--ink);margin-left:48px;transform:rotate(45deg);flex:none}
+.track img{height:var(--h,40px);width:auto;display:block;filter:brightness(0)}
+.track img.keep{filter:none}
+.lg-priest,.lg-strato{font-family:"Metal Mania",var(--head);letter-spacing:.02em;font-size:38px}
+.lg-crue,.lg-gnr{font-family:"New Rocker",var(--head);font-size:36px}
+.lg-idol{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:.14em;font-size:24px;transform:skewX(-10deg)}
+.lg-survivor{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:26px;transform:skewX(-14deg)}
+.lg-alisa{font-family:"Russo One",var(--head);text-transform:uppercase;letter-spacing:.1em;font-size:30px}
+.lg-kish{font-family:"Ruslan Display",var(--head);font-size:30px}
+@keyframes roll{to{transform:translateX(-50%)}}
+@media(max-width:640px){.track li{padding-inline:16px}.track li::after{margin-left:32px}.track img{height:calc(var(--h,40px) * .72)}.lg-priest,.lg-strato,.lg-crue,.lg-gnr{font-size:28px}.lg-idol{font-size:18px}.lg-survivor{font-size:20px}.lg-alisa,.lg-kish{font-size:22px}}
+
+/* facts: four centered figures divided by hairlines */
+.facts{padding-block:clamp(40px,6vw,72px)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:clamp(32px,6vw,96px)}
+.fact{text-align:center;padding:0;display:grid;gap:8px;min-width:0;align-content:start;justify-items:center}
+.fact span:last-child{max-width:22ch}
+.fact b{font-family:var(--head);font-weight:900;font-size:clamp(32px,3.6vw,48px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.fact span:last-child{color:var(--mute)}
+@media(max-width:860px){.facts .wrap{grid-template-columns:repeat(2,auto);row-gap:28px;column-gap:clamp(32px,8vw,64px)}}
+
+/* about */
+.about .copy{max-width:66ch;margin:36px auto 0;display:grid;gap:18px;font-size:14px}
+.about .copy p{margin:0}
+
+/* setlist */
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,72px);margin-top:48px}
+.sets h3{font-size:11px;font-family:var(--mono);font-weight:700;letter-spacing:.2em;text-transform:uppercase;letter-spacing:.2em;margin-bottom:12px;color:var(--mute)}
+.set{list-style:none;margin:0;padding:0;border-top:1px solid var(--text);counter-reset:song}
+.set li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.set li::before{counter-increment:song;content:counter(song,decimal-leading-zero);color:var(--mute)}
+.set .song{min-width:0}
+.set .song b{font-family:var(--head);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0;display:block;line-height:1.3}
+.set .song small{font-size:12px;color:var(--mute)}
+.set .tune{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.note{margin:36px auto 0;max-width:70ch;text-align:center;color:var(--mute)}
+
+/* band + manifesto: one black section */
+.members{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-top:48px}
+.member{min-width:0;text-align:center}
+.member .ph{aspect-ratio:4/5;max-width:100%;background:var(--paper);margin-bottom:14px}
+.member b{display:block;font-family:var(--head);font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:0}
+.member small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b5b5b5;margin-top:4px}
+@media(max-width:900px){.members{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.members{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+.manifest{text-align:center;margin-top:clamp(64px,9vw,120px)}
+.manifest p{margin:0 auto;font-family:var(--head);text-transform:uppercase;letter-spacing:-.025em;line-height:1.1;font-weight:900;font-size:clamp(22px,3.4vw,44px);color:#8a8a8a;max-width:28ch;text-wrap:balance}
+.manifest p.hit{color:var(--paper);margin-top:1em}
+
+/* booking: phone button + messenger links, centered */
+.contact{margin-top:40px;display:grid;gap:16px;justify-items:center}
+.btn.phone{display:inline-flex;align-items:center;gap:14px;font-size:clamp(16px,2vw,22px);letter-spacing:.06em;padding:18px 32px;font-variant-numeric:tabular-nums}
+.msgs{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn.msg{display:inline-flex;align-items:center;gap:10px;color:var(--text);border-color:var(--text);padding:12px 20px}
+.btn.msg:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.msg .mx{font-family:var(--head);font-weight:900;font-size:16px;line-height:1}
+
+/* footer ground */
+  --head:"Inter Tight","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+a{color:inherit}
+img,svg{max-width:100%}
+h1,h2,h3{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:-.025em;line-height:1.1;margin:0;text-wrap:balance}
+h2{font-size:clamp(28px,3.4vw,40px);text-align:center}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+section{padding-block:clamp(56px,8vw,104px)}
+.lead{text-align:center;max-width:62ch;margin:14px auto 0;color:var(--mute)}
+.center{text-align:center}
+.dark{background:var(--ink);color:var(--paper);color-scheme:dark}
+.dark .lead{color:#b5b5b5}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.dark .label{color:#b5b5b5}
+
+/* buttons: square, mono, tracked uppercase */
+.btn{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:15px 28px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);text-decoration:none;cursor:pointer;line-height:1;transition:background-color .35s cubic-bezier(.2,.7,.2,1),color .35s cubic-bezier(.2,.7,.2,1),border-color .35s cubic-bezier(.2,.7,.2,1)}
+.btn svg{transition:fill .35s cubic-bezier(.2,.7,.2,1)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.ghost{background:transparent;color:currentColor;border-color:currentColor}
+.btn.ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+nav.scrolled .btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* nav: burger left, wordmark centered, booking right; transparent over hero, white after scroll */
+nav{position:fixed;left:0;right:0;top:0;padding-top:env(safe-area-inset-top,0px);z-index:20;color:var(--paper);background:transparent;border-bottom:1px solid transparent;transition:background .25s,color .25s,border-color .25s}
+nav.scrolled{background:rgba(255,255,255,.96);color:var(--text);border-bottom-color:var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;min-height:64px}
+.logo{font-family:var(--head);font-weight:900;font-size:20px;letter-spacing:-.02em;text-transform:uppercase;text-decoration:none;justify-self:center;color:inherit}
+.menu-btn{justify-self:start;display:inline-flex;align-items:center;gap:12px;background:none;border:0;color:inherit;cursor:pointer;padding:10px 0;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.menu-btn .ico{width:24px;height:14px;position:relative;display:block}
+.menu-btn .ico::before,.menu-btn .ico::after,.menu-btn .ico i{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor}
+.menu-btn .ico::before{top:0}.menu-btn .ico i{top:6px}.menu-btn .ico::after{bottom:0}
+nav .btn.small{justify-self:end;padding:10px 16px;font-size:11px}
+@media(max-width:560px){nav .btn.small{padding:9px 12px;letter-spacing:.12em}}
+
+/* drawer: white, slides from the left */
+.backdrop{position:fixed;inset:0;background:rgba(10,10,10,.55);z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
+.backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(400px,88vw);background:var(--paper);color:var(--text);z-index:40;transform:translateX(-100%);transition:transform .3s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-rows:auto 1fr auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden}
+.drawer.open{transform:none;visibility:visible}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding-inline:28px;border-bottom:1px solid var(--line)}
+.close-btn{background:none;border:0;color:inherit;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:10px 0;display:inline-flex;gap:10px;align-items:center}
+.close-btn::before{content:"×";font-family:var(--head);font-size:22px;line-height:1;font-weight:700}
+.drawer ul{list-style:none;margin:0;padding:20px 0;overflow:auto}
+.drawer li a{display:block;padding:16px 28px;font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:clamp(24px,3vw,32px);line-height:1;text-decoration:none;color:inherit}
+.drawer li a{transition:background-color .25s,color .25s}
+.drawer li a:hover{background:var(--ink);color:var(--paper)}
+.drawer-foot{padding:24px 28px 28px;display:grid;gap:14px;border-top:1px solid var(--line)}
+.soc{display:flex;gap:22px;flex-wrap:wrap;list-style:none;margin:0;padding:0}
+.soc a{display:inline-flex;align-items:center;padding:6px;color:var(--mute);transition:color .15s}
+.soc svg{display:block}
+.soc a:hover{color:var(--text)}
+body.menu-open{overflow:hidden}
+
+/* hero: full-bleed photo, centered content */
+.hero{position:relative;display:grid;align-items:end;justify-items:center;min-height:100svh;background:var(--ink);color:var(--paper);overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 13%;filter:grayscale(1) contrast(1.05) brightness(.6);display:block;max-width:none}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.1) 35%,rgba(10,10,10,.25) 70%,var(--ink) 100%)}
+.hero-text{position:relative;display:grid;gap:18px;justify-items:center;padding-block:0 clamp(40px,6vw,72px);width:100%}
+.hero h1.slogan{font-family:var(--mono);font-weight:500;font-size:clamp(15px,1.9vw,26px);letter-spacing:.18em;text-transform:uppercase;line-height:1.5;max-width:40ch}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+@media(max-width:720px){.hero-bg{object-position:50% 8%}}
+
+/* logo rows: top row scrolls right, bottom row left */
+.logos{padding-block:clamp(20px,3vw,36px)}
+.marquee{overflow:hidden;padding-block:clamp(14px,1.8vw,22px)}
+.track{display:flex;width:max-content;animation:roll 60s linear infinite}
+.track.rev{animation-direction:reverse}
+.logos:hover .track{animation-play-state:paused}
+.track ul{display:flex;align-items:center;list-style:none;margin:0;padding:0}
+.track li{display:flex;align-items:center;white-space:nowrap;color:var(--ink);font-size:34px;line-height:1;padding-inline:24px}
+.track li::after{content:"";width:5px;height:5px;background:var(--ink);margin-left:48px;transform:rotate(45deg);flex:none}
+.track img{height:var(--h,40px);width:auto;display:block;filter:brightness(0)}
+.track img.keep{filter:none}
+.lg-priest,.lg-strato{font-family:"Metal Mania",var(--head);letter-spacing:.02em;font-size:38px}
+.lg-crue,.lg-gnr{font-family:"New Rocker",var(--head);font-size:36px}
+.lg-idol{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:.14em;font-size:24px;transform:skewX(-10deg)}
+.lg-survivor{font-family:var(--head);font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:26px;transform:skewX(-14deg)}
+.lg-alisa{font-family:"Russo One",var(--head);text-transform:uppercase;letter-spacing:.1em;font-size:30px}
+.lg-kish{font-family:"Ruslan Display",var(--head);font-size:30px}
+@keyframes roll{to{transform:translateX(-50%)}}
+@media(max-width:640px){.track li{padding-inline:16px}.track li::after{margin-left:32px}.track img{height:calc(var(--h,40px) * .72)}.lg-priest,.lg-strato,.lg-crue,.lg-gnr{font-size:28px}.lg-idol{font-size:18px}.lg-survivor{font-size:20px}.lg-alisa,.lg-kish{font-size:22px}}
+
+/* facts: four centered figures divided by hairlines */
+.facts{padding-block:clamp(40px,6vw,72px)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:clamp(32px,6vw,96px)}
+.fact{text-align:center;padding:0;display:grid;gap:8px;min-width:0;align-content:start;justify-items:center}
+.fact span:last-child{max-width:22ch}
+.fact b{font-family:var(--head);font-weight:900;font-size:clamp(32px,3.6vw,48px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.fact span:last-child{color:var(--mute)}
+@media(max-width:860px){.facts .wrap{grid-template-columns:repeat(2,auto);row-gap:28px;column-gap:clamp(32px,8vw,64px)}}
+
+/* about */
+.about .copy{max-width:66ch;margin:36px auto 0;display:grid;gap:18px;font-size:14px}
+.about .copy p{margin:0}
+
+/* setlist */
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,72px);margin-top:48px}
+.sets h3{font-size:11px;font-family:var(--mono);font-weight:700;letter-spacing:.2em;text-transform:uppercase;letter-spacing:.2em;margin-bottom:12px;color:var(--mute)}
+.set{list-style:none;margin:0;padding:0;border-top:1px solid var(--text);counter-reset:song}
+.set li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.set li::before{counter-increment:song;content:counter(song,decimal-leading-zero);color:var(--mute)}
+.set .song{min-width:0}
+.set .song b{font-family:var(--head);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0;display:block;line-height:1.3}
+.set .song small{font-size:12px;color:var(--mute)}
+.set .tune{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.note{margin:36px auto 0;max-width:70ch;text-align:center;color:var(--mute)}
+
+/* band + manifesto: one black section */
+.members{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-top:48px}
+.member{min-width:0;text-align:center}
+.member .ph{aspect-ratio:4/5;max-width:100%;background:var(--paper);margin-bottom:14px}
+.member b{display:block;font-family:var(--head);font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:0}
+.member small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b5b5b5;margin-top:4px}
+@media(max-width:900px){.members{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.members{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+.manifest{text-align:center;margin-top:clamp(64px,9vw,120px)}
+.manifest p{margin:0 auto;font-family:var(--head);text-transform:uppercase;letter-spacing:-.025em;line-height:1.1;font-weight:900;font-size:clamp(22px,3.4vw,44px);color:#8a8a8a;max-width:28ch;text-wrap:balance}
+.manifest p.hit{color:var(--paper);margin-top:1em}
+
+/* booking */
+.booking .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(32px,6vw,96px);margin-top:48px}
+.rider{list-style:none;padding:0;margin:0;border-top:1px solid var(--text)}
+.rider li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rider li span:last-child{color:var(--mute);text-align:right}
+.contacts{margin-top:28px;display:grid;gap:10px}
+.contacts div{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.contacts button{font:inherit;font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--text);background:transparent;color:inherit;padding:6px 10px;cursor:pointer}
+.contacts button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+form{display:grid;gap:16px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:grid;gap:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+input,select,textarea{font:inherit;font-size:13px;letter-spacing:0;text-transform:none;padding:13px 14px;border:1px solid var(--text);background:var(--paper);color:var(--text);width:100%;border-radius:0}
+textarea{min-height:120px;resize:vertical}
+.ok{display:none;border:1px solid var(--text);padding:16px;font-weight:700;letter-spacing:.05em}
+.ok[data-show]{display:block}
+form .btn{justify-self:start}
+@media(max-width:760px){.booking .cols{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+
+/* footer: light grey, centered */
+footer{background:var(--dim);padding-block:48px 40px;text-align:center}
+footer .wrap{display:grid;gap:24px;justify-items:center}
+.fnav{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;list-style:none;margin:0;padding:0}
+.fnav a{text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+.fnav a:hover{color:var(--mute)}
+footer .soc{justify-content:center}
+footer small{font-size:11px;color:var(--mute);letter-spacing:.05em}
+footer small b{font-family:var(--head);font-weight:900;color:var(--text);letter-spacing:-.02em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="drawer" aria-label="Меню"><span class="ico"><i></i></span></button>
+    <a class="logo" href="#top">CoverON</a>
+    <a class="btn ghost small" href="#booking">Заказать</a>
+  </div>
+</nav>
+
+<div class="backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Меню сайта" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="label">CoverON</span>
+    <button class="close-btn" type="button" id="close-btn">Закрыть</button>
+  </div>
+  <ul>
+    <li><a href="#about">О группе</a></li>
+    <li><a href="#setlist">Сет-лист</a></li>
+    <li><a href="#band">Состав</a></li>
+    <li><a href="#booking">Заказать</a></li>
+  </ul>
+  <div class="drawer-foot">
+    <a href="tel:+79227239211" style="text-decoration:none">+7 922 723-92-11</a>
+    <ul class="soc">
+      <li><a href="https://vk.ru/coveronband" target="_blank" rel="noopener" aria-label="VK"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></a></li>
+      <li><a href="https://www.instagram.com/coveronofficial/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a></li>
+    </ul>
+  </div>
+</aside>
+
+<header class="hero" id="top">
+  <img class="hero-bg" src="img/band.jpg" alt="" width="853" height="1280" fetchpriority="high">
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="wrap hero-text">
+    <h1 class="slogan">Мы громче, чем вы готовы выдержать</h1>
+    <div class="cta">
+      <a class="btn ghost" href="#booking">Заказать выступление</a>
+    </div>
+  </div>
+</header>
+
+<div class="logos" aria-label="Группы, которые мы играем">
+  <div class="marquee">
+    <div class="track rev">
+      <ul>
+        <li><img src="logos/maiden.svg" alt="Iron Maiden" style="--h:34px"></li>
+        <li><img src="logos/metallica.svg" alt="Metallica" style="--h:60px"></li>
+        <li><img src="logos/scorpions.svg" alt="Scorpions" style="--h:30px"></li>
+        <li class="lg-idol">Billy Idol</li>
+        <li><img src="logos/sabbath.svg" alt="Black Sabbath" style="--h:50px"></li>
+        <li class="lg-crue">Mötley Crüe</li>
+        <li><img src="logos/aria.svg" alt="Ария" class="keep" style="--h:60px"></li>
+        <li class="lg-alisa">Алиса</li>
+        <li class="lg-kish">Король и Шут</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li><img src="logos/maiden.svg" alt="" style="--h:34px"></li>
+        <li><img src="logos/metallica.svg" alt="" style="--h:60px"></li>
+        <li><img src="logos/scorpions.svg" alt="" style="--h:30px"></li>
+        <li class="lg-idol">Billy Idol</li>
+        <li><img src="logos/sabbath.svg" alt="" style="--h:50px"></li>
+        <li class="lg-crue">Mötley Crüe</li>
+        <li><img src="logos/aria.svg" alt="" class="keep" style="--h:60px"></li>
+        <li class="lg-alisa">Алиса</li>
+        <li class="lg-kish">Король и Шут</li>
+      </ul>
+    </div>
+  </div>
+  <div class="marquee">
+    <div class="track">
+      <ul>
+        <li><img src="logos/dio.svg" alt="Dio" style="--h:46px"></li>
+        <li class="lg-survivor">Survivor</li>
+        <li><img src="logos/motorhead.svg" alt="Motörhead" style="--h:40px"></li>
+        <li><img src="logos/bonjovi.svg" alt="Bon Jovi" style="--h:24px"></li>
+        <li><img src="logos/beatles.svg" alt="The Beatles" style="--h:40px"></li>
+        <li><img src="logos/acdc.svg" alt="AC/DC" style="--h:44px"></li>
+        <li class="lg-strato">Stratovarius</li>
+        <li class="lg-priest">Judas Priest</li>
+        <li class="lg-gnr">Guns N' Roses</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li><img src="logos/dio.svg" alt="" style="--h:46px"></li>
+        <li class="lg-survivor">Survivor</li>
+        <li><img src="logos/motorhead.svg" alt="" style="--h:40px"></li>
+        <li><img src="logos/bonjovi.svg" alt="" style="--h:24px"></li>
+        <li><img src="logos/beatles.svg" alt="" style="--h:40px"></li>
+        <li><img src="logos/acdc.svg" alt="" style="--h:44px"></li>
+        <li class="lg-strato">Stratovarius</li>
+        <li class="lg-priest">Judas Priest</li>
+        <li class="lg-gnr">Guns N' Roses</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="facts" aria-label="Коротко о группе">
+  <div class="wrap">
+    <div class="fact"><span class="label">Состав</span><b>5</b><span>человек, все живьём</span></div>
+    <div class="fact"><span class="label">На сцене</span><b>с 2012</b><span>фестивали, байк-шоу, клубы, открытые площадки</span></div>
+    <div class="fact"><span class="label">Репертуар</span><b>60+</b><span>песен от хэви 80-х до русского рока</span></div>
+    <div class="fact"><span class="label">Программа</span><b>2 × 60</b><span>или один сет по договорённости</span></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <h2>Мы не про музыку «для фона»</h2>
+    <p class="lead">CoverOn — уральская рок-группа, закалённая сценой с 2012 года.</p>
+    <div class="copy">
+      <p>Фестивали, байк-шоу, клубы, открытые площадки — за эти годы мы сыграли на самых разных сценах и точно знаем, зачем выходим к публике.</p>
+      <p>CoverOn — это металл и хард-рок, мощный живой звук и мировые хиты, которые узнаются с первых секунд. Жёсткие риффы, плотный грув и вокал, который не просит внимания — он его забирает.</p>
+      <p>Мы играем песни, которые давно стали частью истории рок-сцены, но каждый раз заставляем их звучать так, будто они написаны для этой сцены, этого вечера и этой публики.</p>
+      <p>Каждое выступление CoverOn — это больше, чем концерт. Это энергия, которую можно почувствовать физически. Это момент, когда первые ряды перестают быть зрителями, а сцена и зал становятся одним целым.</p>
+    </div>
+  </div>
+</section>
+
+<section class="setlist" id="setlist">
+  <div class="wrap">
+    <h2>Сет-лист</h2>
+    <p class="lead">Стандартная двухчастная программа. Полный репертуар больше шестидесяти песен, состав блоков меняется под площадку. Рядом с каждой песней указан строй гитар.</p>
+    <div class="sets">
+      <div>
+        <h3>Сет I · 45 мин</h3>
+        <ol class="set">
+          <li><div class="song"><b>The Trooper</b><small>Iron Maiden · 1983</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Rock You Like a Hurricane</b><small>Scorpions · 1984</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Rebel Yell</b><small>Billy Idol · 1983</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Paranoid</b><small>Black Sabbath · 1970</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Беспечный ангел</b><small>Ария · 2000</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Kickstart My Heart</b><small>Mötley Crüe · 1989</small></div><span class="tune">Eb std</span></li>
+          <li><div class="song"><b>Holy Diver</b><small>Dio · 1983</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Eye of the Tiger</b><small>Survivor · 1982</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Enter Sandman</b><small>Metallica · 1991</small></div><span class="tune">E std</span></li>
+        </ol>
+      </div>
+      <div>
+        <h3>Сет II · 45 мин</h3>
+        <ol class="set">
+          <li><div class="song"><b>Ace of Spades</b><small>Motörhead · 1980</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Livin' on a Prayer</b><small>Bon Jovi · 1986</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Come Together</b><small>The Beatles · 1969</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Трасса Е-95</b><small>Алиса · 1997</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Кукла колдуна</b><small>Король и Шут · 2001</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Hunting High and Low</b><small>Stratovarius · 2000</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Breaking the Law</b><small>Judas Priest · 1980</small></div><span class="tune">E std</span></li>
+          <li><div class="song"><b>Sweet Child O' Mine</b><small>Guns N' Roses · 1987</small></div><span class="tune">Eb std</span></li>
+          <li><div class="song"><b>Highway to Hell</b><small>AC/DC · 1979</small></div><span class="tune">E std</span></li>
+        </ol>
+      </div>
+    </div>
+    <p class="note">Бис: Master of Puppets (Metallica), Wind of Change (Scorpions). По запросу готовим одну-две песни специально под мероприятие, нужно три недели.</p>
+  </div>
+</section>
+
+<section class="band dark" id="band">
+  <div class="wrap">
+    <h2>Состав</h2>
+    <div class="members">
+      <div class="member"><div class="ph" aria-hidden="true"></div><b>Гриша</b><small>Вокал</small></div>
+      <div class="member"><div class="ph" aria-hidden="true"></div><b>Коленька</b><small>Гитара</small></div>
+      <div class="member"><div class="ph" aria-hidden="true"></div><b>Владос</b><small>Гитара</small></div>
+      <div class="member"><div class="ph" aria-hidden="true"></div><b>Дед</b><small>Бас</small></div>
+      <div class="member"><div class="ph" aria-hidden="true"></div><b>Илич</b><small>Ударные</small></div>
+    </div>
+    <div class="manifest" aria-label="Манифест">
+      <p>Если вам нужен просто фон — это не к нам.</p>
+      <p class="hit">Если нужен настоящий рок — вы по адресу.</p>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="booking">
+  <div class="wrap">
+    <h2>Заказать выступление</h2>
+    <p class="lead">Позвоните или напишите в мессенджер. Ответим в течение дня, пришлём полный репертуар, технический райдер и стоимость.</p>
+    <div class="contact">
+      <a class="btn phone" href="tel:+79227239211"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg><span>+7 922 723-92-11</span></a>
+      <div class="msgs">
+        <a class="btn ghost msg" href="https://t.me/+79227239211" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span>Telegram</span></a>
+        <a class="btn ghost msg" href="https://web.max.ru/+79227239211" target="_blank" rel="noopener"><span class="mx" aria-hidden="true">M</span><span>MAX</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <ul class="fnav">
+      <li><a href="#about">О группе</a></li>
+      <li><a href="#setlist">Сет-лист</a></li>
+        <li><a href="#band">Состав</a></li>
+        <li><a href="#booking">Заказать</a></li>
+    </ul>
+    <ul class="soc">
+      <li><a href="https://vk.ru/coveronband" target="_blank" rel="noopener" aria-label="VK"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></a></li>
+      <li><a href="https://www.instagram.com/coveronofficial/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a></li>
+    </ul>
+    <small><b>CoverON</b> · Жёстче, чем ты думаешь. · © 2012–2026</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.querySelector('nav');
+  function onScroll(){nav.classList.toggle('scrolled',scrollY>24)}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var drawer=document.getElementById('drawer'),backdrop=document.getElementById('backdrop'),
+      menuBtn=document.getElementById('menu-btn'),closeBtn=document.getElementById('close-btn');
+  function openMenu(){
+    drawer.classList.add('open');backdrop.classList.add('open');document.body.classList.add('menu-open');
+    drawer.setAttribute('aria-hidden','false');menuBtn.setAttribute('aria-expanded','true');
+    drawer.querySelector('li a').focus();
+  }
+  function closeMenu(){
+    drawer.classList.remove('open');backdrop.classList.remove('open');document.body.classList.remove('menu-open');
+    drawer.setAttribute('aria-hidden','true');menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.focus();
+  }
+  menuBtn.addEventListener('click',openMenu);
+  closeBtn.addEventListener('click',closeMenu);
+  backdrop.addEventListener('click',closeMenu);
+  drawer.querySelectorAll('li a').forEach(function(a){a.addEventListener('click',closeMenu)});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&drawer.classList.contains('open'))closeMenu()});
+
+})();
+</script>
+</body>
+</html>
