@@ -146,12 +146,17 @@ body.menu-open{overflow:hidden}
 .manifest p{margin:0 auto;font-family:var(--head);text-transform:uppercase;letter-spacing:-.025em;line-height:1.1;font-weight:900;font-size:clamp(22px,3.4vw,44px);color:#8a8a8a;max-width:28ch;text-wrap:balance}
 .manifest p.hit{color:var(--paper);margin-top:1em}
 
-/* booking: phone button + messenger links, centered */
+/* booking: photo background, white text, centered */
+.booking{position:relative;overflow:hidden;padding-block:clamp(80px,12vw,160px)}
+.booking-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:grayscale(1) brightness(.55);display:block;max-width:none}
+.booking-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.35) 50%,rgba(10,10,10,.7))}
+.booking .wrap{position:relative}
 .contact{margin-top:40px;display:grid;gap:16px;justify-items:center}
-.btn.phone{display:inline-flex;align-items:center;gap:14px;font-size:clamp(16px,2vw,22px);letter-spacing:.06em;padding:18px 32px;font-variant-numeric:tabular-nums}
+.btn.phone{display:inline-flex;align-items:center;gap:14px;font-size:clamp(16px,2vw,22px);letter-spacing:.06em;padding:18px 32px;font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn.phone:hover{background:transparent;color:var(--paper)}
 .msgs{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.btn.msg{display:inline-flex;align-items:center;gap:10px;color:var(--text);border-color:var(--text);padding:12px 20px}
-.btn.msg:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.msg{display:inline-flex;align-items:center;gap:10px;color:var(--paper);border-color:var(--paper);padding:12px 20px}
+.btn.msg:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .btn.msg .mx{font-family:var(--head);font-weight:900;font-size:16px;line-height:1}
 
 /* footer: light grey, centered */
@@ -352,7 +357,9 @@ footer small b{font-family:var(--head);font-weight:900;color:var(--text);letter-
   </div>
 </section>
 
-<section class="booking" id="booking">
+<section class="booking dark" id="booking">
+  <img class="booking-bg" src="img/booking.jpg" alt="" width="1920" height="1280" loading="lazy">
+  <div class="booking-shade" aria-hidden="true"></div>
   <div class="wrap">
     <h2>Заказать выступление</h2>
     <p class="lead">Позвоните или напишите в мессенджер. Ответим в течение дня, пришлём полный репертуар, технический райдер и стоимость.</p>
