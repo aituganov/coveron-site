@@ -147,8 +147,8 @@ body.menu-open{overflow:hidden}
 .manifest p.hit{color:var(--paper);margin-top:1em}
 
 /* booking: photo background, white text, centered */
-.booking{position:relative;overflow:hidden;padding-block:clamp(80px,12vw,160px)}
-.booking-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:grayscale(1) brightness(.55);display:block;max-width:none}
+.booking{position:relative;overflow:hidden;padding-block:clamp(96px,14vw,200px);min-height:min(85svh,900px);display:grid;align-items:center}
+.booking-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:grayscale(1) brightness(.55);display:block;max-width:none}
 .booking-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.35) 50%,rgba(10,10,10,.7))}
 .booking .wrap{position:relative}
 .contact{margin-top:40px;display:grid;gap:16px;justify-items:center}
